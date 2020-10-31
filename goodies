@@ -1,0 +1,31 @@
+def func(sol, goodies, index, m):
+    if m == 0:
+        for i in range(len(sol) - 1):
+            sol[i] = sol[i] - sol[i + 1]
+
+        return max(sol) - min(sol)
+
+    else:
+
+        # sol can be constructed even if we
+        # don't include the current value
+        if index >= m:
+            return min(func(sol[:] + [goodies[index]], goodies, index - 1, m - 1),
+                       func(sol[:], goodies, index - 1, m))
+
+            # sol can't be constructed hence
+        # we have to include the current value
+        else:
+            return func(sol[:] + [goodies[index]], goodies, index - 1, m - 1)
+
+print("Number of the employees:")
+m = int(input())
+print("Goodies and Prices:\n Fitbit Plus: 7980\n IPods: 22349\n MI Band: 999\n Cult Pass: 2799\n Macbook Pro: 229900\nDigital Camera: 11101\n Alexa: 9999\n Sandwich Toaster: 2195\n Microwave Oven: 9800\n Scale: 4999")
+goodies = [7980, 22349, 999, 2799, 229900, 11101, 9999, 2195, 9800, 4999]
+
+for i in range(1, len(goodies)):
+    goodies[i] += goodies[i - 1]
+sol = [goodies[i - 1]]
+mino = func(sol[:],goodies, len(goodies) - 2, m - 1)
+print("Here the goodies that are selected for distribution are:")
+print("And the difference between the chosen goodie with highest price and the lowest price is ",mino)
